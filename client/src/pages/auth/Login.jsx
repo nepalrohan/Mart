@@ -2,7 +2,7 @@ import CommonForm from "@/components/common/form";
 import { loginFormControls } from "@/config";
 import { loginUser } from "@/store/auth-slice";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -13,6 +13,8 @@ const initialState = {
 
 function Login() {
   const [formData, setFormData] = React.useState(initialState);
+const {  isLoading } = useSelector((state) => state.auth);
+  
   const dispatch = useDispatch();
 
   function onSubmit(e) {
@@ -53,6 +55,7 @@ function Login() {
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
+        isLoading={isLoading}
       />
     </div>
   );

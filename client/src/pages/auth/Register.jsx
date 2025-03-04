@@ -2,7 +2,7 @@ import CommonForm from '@/components/common/form';
 import { registerFormControls } from '@/config';
 import { registerUser } from '@/store/auth-slice';
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from "sonner"
 
@@ -16,6 +16,8 @@ function Register() {
 
 const [formData, setFormData] = useState(initialState);
 const dispatch = useDispatch();
+const {  isLoading } = useSelector((state) => state.auth);
+
 const navigate = useNavigate();
 function onSubmit (e){
   e.preventDefault();
@@ -43,6 +45,7 @@ buttonText={'Sign Up'}
 formData={formData}
 setFormData={setFormData}
 onSubmit={onSubmit}
+isLoading={isLoading}
 
 />
     </div>

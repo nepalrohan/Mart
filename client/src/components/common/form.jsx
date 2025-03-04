@@ -4,6 +4,8 @@ import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
+import { useSelector } from 'react-redux';
+import { Loader2 } from 'lucide-react';
 
 
 const types= {
@@ -12,7 +14,7 @@ SELECT:'select',
 TEXTAREA:'textarea'
 }
 
-function CommonForm({formControls, formData, setFormData, onSubmit, buttonText}) {
+function CommonForm({formControls, formData, setFormData, onSubmit, buttonText, isLoading}) {
 
 function renderInputByComponentType(getControlItem){
     let element = null;
@@ -98,7 +100,7 @@ function renderInputByComponentType(getControlItem){
 }
 </div>
 
-<Button className='mt-4 w-full cursor-pointer '   type='submit'>{buttonText || 'Submit'}</Button>
+<Button disabled={isLoading} className='mt-4 w-full cursor-pointer '   type='submit'> {isLoading?(<><Loader2 className='w-4 h-4 animate-spin mr-2   '/> Wait</>):(buttonText || 'Submit')}</Button>
     </form>
   )
 }
