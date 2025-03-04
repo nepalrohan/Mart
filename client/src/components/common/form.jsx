@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 
+
 const types= {
 INPUT:'input',
 SELECT:'select',
@@ -15,22 +16,24 @@ function CommonForm({formControls, formData, setFormData, onSubmit, buttonText})
 
 function renderInputByComponentType(getControlItem){
     let element = null;
-    const value = formData[getControlItem.name];
+    const value = formData[getControlItem.name] || '';
     switch(getControlItem.componentType){
         case types.INPUT:
-            element = <Input 
+            element =( <Input 
             name={getControlItem.name}
             type={getControlItem.type}
             placeholder={getControlItem.placeholder}
             id={getControlItem.name}
-            value={value}
-        onChange = { event => setFormData({...formData, [getControlItem.name]: event.target.value})}
+        onChange = { (event) =>{ setFormData({...formData, [getControlItem.name]: event.target.value}) 
+    }}
+        value={value}
 
-            />
+
+            />)
             break;
 
             case types.SELECT:
-                element = <Select value={value} onValuechange={event => setFormData({...formData, [getControlItem.name]:value})}>
+                element = (<Select value={value} onValueChange={(event) => setFormData({...formData, [getControlItem.name]:event.target.value})}>
                     <SelectTrigger className='w-full'>
                         <SelectValue placeholder={getControlItem.placeholder} />
 
@@ -43,31 +46,34 @@ function renderInputByComponentType(getControlItem){
                             <SelectItem key={optionItem.id} value={optionItem.id}>{optionItem.label}</SelectItem>):null
                         }
                     </SelectContent>
-                </Select>
+                </Select>)
                 break;
 
 
                 case types.TEXTAREA:
-                    element = <Textarea 
+                    element = (<Textarea 
                     name={getControlItem.name}
                     type={getControlItem.type}
                     placeholder={getControlItem.placeholder}
                     id={getControlItem.name}
+        onChange = { (event) => setFormData({...formData, [getControlItem.name]: event.target.value})}
+
                         value={value}
         
-                    />
+                    />)
                     break;
 
         default:
-            element = <Input 
+            element = (<Input 
             name={getControlItem.name}
             type={getControlItem.type}
             placeholder={getControlItem.placeholder}
             id={getControlItem.name}
-            value={value}
         onChange = { event => setFormData({...formData, [getControlItem.name]: event.target.value})}
+        value={value}
 
-            />
+
+            />)
             break;
     }
 
