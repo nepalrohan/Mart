@@ -3,7 +3,7 @@ import dbConnect from "./config/database.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from 'dotenv';
-
+import authRouter from './routes/auth/auth-routes.js';
 dotenv.config();
 // Connect to DB
 dbConnect();
@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: [
       "Content-Type",
@@ -29,6 +29,9 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+
+
+app.use('/api/auth', authRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
