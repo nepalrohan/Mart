@@ -16,7 +16,7 @@ function Adminlayout() {
 {/* admin header */}
 <AdminHeader   setOpen={setOpenSidebar} />
 
-<main className='flex flex-1 bg-muted/40 p-4 md:p-6 '>
+<main className='flex flex-1 bg-secondary p-4 md:p-6 '>
     <Outlet/>
 </main>
 </div>

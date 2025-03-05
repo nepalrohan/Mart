@@ -52,15 +52,15 @@ function CommonForm({
         element = (
           <Select
             value={value}
-            onValueChange={(event) =>
+            onValueChange={(value) =>
               setFormData({
                 ...formData,
-                [getControlItem.name]: event.target.value,
+                [getControlItem.name]: value,
               })
             }
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={getControlItem.placeholder} />
+              <SelectValue placeholder={getControlItem.label} />
             </SelectTrigger>
             <SelectContent>
               {getControlItem.options && getControlItem.options.length > 0
