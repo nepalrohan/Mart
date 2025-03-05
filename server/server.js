@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from 'dotenv';
 import authRouter from './routes/auth/auth-routes.js';
+import adminProductRouter from './routes/admin/products-routes.js'
 dotenv.config();
 // Connect to DB
 dbConnect();
@@ -32,6 +33,8 @@ app.use(cookieParser());
 
 
 app.use('/api/auth', authRouter);
+app.use('/api/admin/products', adminProductRouter);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

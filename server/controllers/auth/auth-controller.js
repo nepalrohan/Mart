@@ -48,8 +48,8 @@ export const loginUser = async (req, res) => {
         if(!checkUser) return res.json({success:false, message: 'User not found, please register first'});
         const checkPassword = await bcrypt.compare(password, checkUser.password);
         if(!checkPassword) return res.json({success:false, message: 'Invalid password'});
-        const token = jwt.sign({email: checkUser.email, id: checkUser._id, role:checkUser.role}, process.env.JWT_SECRET, {expiresIn: '1h'});
-       return  res.cookie('token', token, {httpOnly: true, secure:false}).json({success:true, message: 'User logged in successfully', user:{
+        const token = jwt.sign({email: checkUser.email, id: checkUser._id, role:checkUser.role}, process.env.JWT_SECRET, {expiresIn: '60m'});
+         res.cookie('token', token, {httpOnly: true, secure:false}).json({success:true, message: 'User logged in successfully', user:{
         email: checkUser.email,
         id: checkUser._id,       
         role:checkUser.role
@@ -63,5 +63,34 @@ export const loginUser = async (req, res) => {
 };
 
 //logout
+
+
+
+export const logoutUser = async (req, res) => {
+
+    try {
+        res.clearCookie('token').json({success:true, message: 'User logged out successfully'});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({success:false, message: 'Something went wrong during logout'});
+    }
+}
+
+
+
 //auth-middleware
+
+export const authMiddleware = async (req, res, next) => {
+    const token = req.cookies.token;
+    if(!token) return res.status(401).json({success:false, message: 'Unauthorized user'});
+    try {
+        const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decodedData;
+        next();
+    } catch (error) {
+        console.log(error);
+        res.status(401).json({success:false, message: 'Unauthorized user'});
+    }
+
+}
 
