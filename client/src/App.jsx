@@ -18,8 +18,6 @@ import CheckAuth from "./components/common/check-auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
-import { Loader2 } from "lucide-react";
-
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -29,9 +27,7 @@ function App() {
   }, [dispatch]);
 
 
-  // if(isLoading) return <div className="flex items-center justify-center h-screen"><Loader2 size={64} className="animate-spin" />
     
-  // </div>
 
   return (
     <>
@@ -72,7 +68,6 @@ function App() {
           >
             <Route path="" element={<ShoppingHome />} />
             <Route path="listing" element={<ShoppingListing />} />
-            <Route path="checkout" element={<ShoppingCheckout />} />
             <Route path="checkout" element={<ShoppingCheckout />} />
             <Route path="account" element={<ShoppingAccount />} />
           </Route>
