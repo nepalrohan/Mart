@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { handleImageUpload } from "../../controllers/admin/admin-controller";
+import { handleImageUpload } from "../../controllers/admin/admin-controller.js"
 
-import { upload } from "../../helpers/cloudinary";
+import { upload } from "../../helpers/cloudinary.js"
 
 
 
