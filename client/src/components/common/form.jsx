@@ -25,6 +25,7 @@ function CommonForm({
   onSubmit,
   buttonText,
   isLoading,
+  isBtnDisabled,
 }) {
   function renderInputByComponentType(getControlItem) {
     let element = null;
@@ -133,8 +134,10 @@ function CommonForm({
       </div>
 
       <Button
-        disabled={isLoading}
-        className="mt-4 w-full cursor-pointer "
+
+
+        disabled={isBtnDisabled}
+        className={` ${isBtnDisabled ? 'cursor-not-allowed': 'cursor-pointer'} mt-4 w-full  `}
         type="submit"
       >
         {" "}

@@ -8,10 +8,11 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config";
-import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
+import { addNewProduct, editProduct, fetchAllProducts } from "@/store/admin/products-slice";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
+import AdminProductTile from "./Product-tile";
 
 const initialFormData = {
   image: null,
@@ -29,14 +30,34 @@ function AdminProducts() {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
+
+const [currentEditedId, setCurrentEditedId] = useState(null);
+
   const  { productList ,isLoading} = useSelector((state)=>state.adminProducts);
 
-  const dispatch = useDispatch();
+console.log(typeof(currentEditedId ,"type of id in client"))
 
+  const dispatch = useDispatch();
 
   function onSubmit(e) {
 e.preventDefault();
 
+currentEditedId !==null ?
+dispatch(
+
+  editProduct({
+    id:currentEditedId, formData
+  })
+).then((data)=>{
+  console.log(data)
+
+  if(data?.payload?.success){
+    dispatch(fetchAllProducts);
+    setFormData(initialFormData);
+    setOpenAddProduct(false);
+    setCurrentEditedId(null);
+  }
+}):
 dispatch(addNewProduct({
   ...formData,
   image:uploadedImageUrl
@@ -60,8 +81,16 @@ dispatch(addNewProduct({
 
 
   useEffect(()=>{
-    dispatch(fetchAllProducts)
+    dispatch(fetchAllProducts())
   },[dispatch])
+
+
+
+function isFormValid(){
+  return Object.keys(formData).map((key)=>formData[key]!=='').every((item)=>item);
+}
+
+
 
   return (
     <Fragment>
@@ -73,16 +102,28 @@ dispatch(addNewProduct({
           Add New Product
         </Button>
       </div>
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 "></div>
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 ">
+
+
+{
+  productList && productList.length >0 ?
+  productList.map((productItem)=><AdminProductTile setOpenAddProduct={setOpenAddProduct} setFormData={setFormData}  setCurrentEditedId={setCurrentEditedId} product={productItem} />):null
+}
+
+
+      </div>
 
       <Sheet
         open={openAddProduct}
-        onOpenChange={() => setOpenAddProduct(false)}
+        onOpenChange={() => {setOpenAddProduct(false)
+          setCurrentEditedId(null);
+          setFormData(initialFormData)}
+        }
       >
         <SheetContent side="right" className="overflow-auto">
           <SheetHeader>
             <SheetTitle className="font-bold text-center text-xl">
-              Add New Product
+            {  currentEditedId ? 'Edit Product': 'Add New Product'}
             </SheetTitle>
           </SheetHeader>
           <ProductImageUpload
@@ -92,15 +133,17 @@ dispatch(addNewProduct({
             uploadedImageUrl={uploadedImageUrl}
             setUploadedImageUrl={setUploadedImageUrl}
             imageLoading={imageLoading}
+            isEditMode={currentEditedId !==null}
           />
           <div className="py-6 px-4">
             <CommonForm
               formControls={addProductFormElements}
               formData={formData}
               setFormData={setFormData}
-              buttonText="Add "
+              buttonText={currentEditedId ? 'Edit' :'Add'}
               onSubmit={onSubmit}
               isLoading={isLoading}
+              isBtnDisabled={!isFormValid()}
             />
           </div>
         </SheetContent>
