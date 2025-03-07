@@ -48,11 +48,12 @@ export const loginUser = async (req, res) => {
         if(!checkUser) return res.json({success:false, message: 'User not found, please register first'});
         const checkPassword = await bcrypt.compare(password, checkUser.password);
         if(!checkPassword) return res.json({success:false, message: 'Invalid password'});
-        const token = jwt.sign({email: checkUser.email, id: checkUser._id, role:checkUser.role}, process.env.JWT_SECRET, {expiresIn: '60m'});
+        const token = jwt.sign({email: checkUser.email, id: checkUser._id, userName:checkUser.userName, role:checkUser.role}, process.env.JWT_SECRET, {expiresIn: '60m'});
          res.cookie('token', token, {httpOnly: true, secure:false}).json({success:true, message: 'User logged in successfully', user:{
         email: checkUser.email,
         id: checkUser._id,       
-        role:checkUser.role
+        role:checkUser.role,
+        userName:checkUser.userName
        }});
 
 

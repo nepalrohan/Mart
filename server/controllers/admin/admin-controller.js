@@ -80,8 +80,10 @@ export const editProduct  = async (req, res)=>{
     try {
        
         const {id} = req.params;
+        console.log('id that throw error is of type',id);
+        
         const {image, title, description, category, brand, price, salePrice, totalStock} = req.body;
-        const findProduct = await Product.findById(id);
+        let findProduct = await Product.findById(id);
 
         if(!findProduct) return res.status(404).json({
             success:false,
@@ -89,14 +91,14 @@ export const editProduct  = async (req, res)=>{
         })
 
         
-        Product.title = title || findProduct.title;
-        Product.description = description || findProduct.description;
-        Product.image = image || findProduct.image;
-        Product.category = category || findProduct.category;
-        Product.brand = brand || findProduct.brand;
-        Product.price = price || findProduct.price;
-        Product.salePrice = salePrice || findProduct.salePrice;
-        Product.totalStock = totalStock || findProduct.totalStock;
+        findProduct.title = title || findProduct.title;
+        findProduct.description = description || findProduct.description;
+        findProduct.image = image || findProduct.image;
+        findProduct.category = category || findProduct.category;
+        findProduct.brand = brand || findProduct.brand;
+        findProduct.price = price === '' ? 0: price || findProduct.price;
+        findProduct.salePrice = salePrice === '' ? 0 : salePrice || findProduct.salePrice;
+        findProduct.totalStock = totalStock || findProduct.totalStock;
 
         await findProduct.save();
 
