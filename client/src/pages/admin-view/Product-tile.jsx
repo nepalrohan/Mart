@@ -4,7 +4,7 @@ import { Delete, DeleteIcon, Edit } from 'lucide-react'
 import React from 'react'
 
 
-function AdminProductTile({product, setFormData, setOpenAddProduct,setCurrentEditedId}) {
+function AdminProductTile({product, setFormData, setOpenAddProduct,setCurrentEditedId, handleDelete}) {
 
     console.log('productid', product._id)
   return (
@@ -53,7 +53,10 @@ function AdminProductTile({product, setFormData, setOpenAddProduct,setCurrentEdi
             Edit
             </span>
         </Button>
-        <Button className='cursor-pointer flex items-center' >
+        <Button className='cursor-pointer flex items-center'  
+        
+        onClick={()=>handleDelete(product._id)}
+        >
             <DeleteIcon  className='text-red-300' />
             <span>
 

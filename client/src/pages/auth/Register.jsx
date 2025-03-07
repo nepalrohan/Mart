@@ -31,9 +31,11 @@ function onSubmit (e){
   }});
 
 }
-
+function isFormValid(){
+  return Object.keys(formData).map((key)=>formData[key]!=='').every((item)=>item);
+}
   return (
-    <div className='mx-auto w-full max-w-md space-y-6 '>
+    <div className='mx-auto w-full max-w-md space-y-6 shadow-2xl p-6 rounded'>
 
 <div className='text-center'>
 <h1 className='text-3xl font-bold tracking-tight text-foreground'>Create new account</h1>
@@ -46,7 +48,7 @@ formData={formData}
 setFormData={setFormData}
 onSubmit={onSubmit}
 isLoading={isLoading}
-
+isBtnDisabled={!isFormValid()}
 />
     </div>
   )

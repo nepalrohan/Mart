@@ -8,7 +8,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config";
-import { addNewProduct, editProduct, fetchAllProducts } from "@/store/admin/products-slice";
+import { addNewProduct, deleteProduct, editProduct, fetchAllProducts } from "@/store/admin/products-slice";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -49,14 +49,14 @@ dispatch(
     id:currentEditedId, formData
   })
 ).then((data)=>{
-  console.log(data)
 
   if(data?.payload?.success){
-    dispatch(fetchAllProducts);
+    dispatch(fetchAllProducts());
     setFormData(initialFormData);
     setOpenAddProduct(false);
     setCurrentEditedId(null);
   }
+
 }):
 dispatch(addNewProduct({
   ...formData,
@@ -65,7 +65,7 @@ dispatch(addNewProduct({
   
   console.log(data)
   if(data?.payload?.success){
-    dispatch(fetchAllProducts);
+    dispatch(fetchAllProducts());
 
     setImageFile(null);
     setFormData(initialFormData);
@@ -80,6 +80,8 @@ dispatch(addNewProduct({
 
 
 
+
+
   useEffect(()=>{
     dispatch(fetchAllProducts())
   },[dispatch])
@@ -90,7 +92,15 @@ function isFormValid(){
   return Object.keys(formData).map((key)=>formData[key]!=='').every((item)=>item);
 }
 
+function handleDelete(getCurrentProductId){
 
+dispatch(deleteProduct(getCurrentProductId)).then(data=>{
+  if(data?.payload?.success){
+    dispatch(fetchAllProducts());
+
+  }
+})
+}
 
   return (
     <Fragment>
@@ -107,7 +117,7 @@ function isFormValid(){
 
 {
   productList && productList.length >0 ?
-  productList.map((productItem)=><AdminProductTile setOpenAddProduct={setOpenAddProduct} setFormData={setFormData}  setCurrentEditedId={setCurrentEditedId} product={productItem} />):null
+  productList.map((productItem)=><AdminProductTile setOpenAddProduct={setOpenAddProduct} setFormData={setFormData}  setCurrentEditedId={setCurrentEditedId} product={productItem} handleDelete={handleDelete} />):null
 }
 
 

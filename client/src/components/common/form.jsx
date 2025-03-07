@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import {
@@ -116,8 +116,6 @@ function CommonForm({
     return element;
   }
 
- 
-
   return (
     <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-3 ">
@@ -126,18 +124,16 @@ function CommonForm({
             <div key={controlItem.name} className="grid w-full gap-1.5">
               <Label className="mb-1">{controlItem.label}</Label>
               {renderInputByComponentType(controlItem)}
-
-             
             </div>
           );
         })}
       </div>
 
       <Button
-
-
-        disabled={isBtnDisabled}
-        className={` ${isBtnDisabled ? 'cursor-not-allowed': 'cursor-pointer'} mt-4 w-full  `}
+        disabled={isBtnDisabled || isLoading}
+        className={` ${
+          isBtnDisabled ? "cursor-not-allowed " : "cursor-pointer"
+        } mt-4 w-full  `}
         type="submit"
       >
         {" "}
