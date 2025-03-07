@@ -44,7 +44,7 @@ return <div className="flex lg:items-center lg:flex-row  gap-4">
     <AvatarFallback className="bg-gray-700 text-white font-extrabold ">{user?.userName[0].toUpperCase()}</AvatarFallback>
   </Avatar>
 </DropdownMenuTrigger>
-<DropdownMenuContent  className='w-56'>
+<DropdownMenuContent  className='w-56' align='end'>
   <DropdownMenuLabel>Logged in as: <span className="text-green-600">{user?.userName}</span></DropdownMenuLabel>
   <DropdownMenuSeparator/>
 <DropdownMenuItem className='cursor-pointer' onClick={()=>navigate('/shop/account')}>
@@ -82,6 +82,8 @@ const {isAuthenticated} = useSelector(state=>state.auth)
           </Button>
         </SheetTrigger>
         <SheetContent side='left' className='w-full max-w-xs'>
+<HeaderRightContent/>
+        
         <MenuItems/>
         </SheetContent >
       </Sheet>
@@ -90,7 +92,7 @@ const {isAuthenticated} = useSelector(state=>state.auth)
 <MenuItems/>
 </div>
 {
-  isAuthenticated ? <div>
+  isAuthenticated ? <div className="hidden lg:block">
 <HeaderRightContent/>
   </div> :null
 }
