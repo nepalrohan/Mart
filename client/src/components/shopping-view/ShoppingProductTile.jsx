@@ -31,9 +31,9 @@ Sale
 </div>
 
 <div className='flex justify-between items-center mb-2'>
-    <span className={` ${product?.salePrice > 0 ? 'line-through text-muted-foreground font-semibold' : 'text-primary '}text-lg `}>{product?.price}</span>
+    <span className={` ${product?.salePrice > 0 ? 'line-through text-muted-foreground font-semibold' : 'text-primary '}text-lg `}>Rs.{product?.price}</span>
     {
-        product.salePrice > 0 ? <span className='text-lg text-primary font-semibold'>{product?.salePrice}</span>
+        product.salePrice > 0 ? <span className='text-lg text-primary font-semibold'>Rs.{product?.salePrice}</span>
 : null
     }
 </div>
