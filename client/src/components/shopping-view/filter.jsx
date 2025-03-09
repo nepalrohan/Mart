@@ -11,7 +11,6 @@ function ProductFilter({ filters, handleFilter }) {
         <h2 className="text-lg font-extrabold">Filters</h2>
       </div>
       <div className="p-4 space-y-4 ">
-        s
         {Object.keys(filterOptions).map((keyItem) => (
           <Fragment>
             <div>
@@ -22,12 +21,7 @@ function ProductFilter({ filters, handleFilter }) {
                 {filterOptions[keyItem].map((option) => (
                   <Label className="flex items-center gap-2 font-medium">
                     <Checkbox
-                      checked={
-                        filters &&
-                        Object.keys(filters).length > 0 &&
-                        filters[keyItem] &&
-                        filters[keyItem].indexOf(option.id)
-                      }
+                   checked={filters && filters[keyItem] && filters[keyItem].includes(option.id)}
                       className="cursor-pointer border-gray-500"
                       onCheckedChange={() => handleFilter(keyItem, option.id)}
                     />
