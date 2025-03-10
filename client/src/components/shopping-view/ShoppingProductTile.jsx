@@ -3,10 +3,10 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
-function ShoppingProductTile({ product }) {
+function ShoppingProductTile({ product , handleGetProductDetails, handleAddToCart}) {
   return (
-    <Card className="w-full max-w-sm mx-auto">
-      <div>
+    <Card className="w-full max-w-sm mx-auto cursor-pointer">
+      <div onClick={()=>handleGetProductDetails(product?._id)}>
         <div className="relative">
           <img
             src={product?.image}
@@ -51,12 +51,15 @@ function ShoppingProductTile({ product }) {
             ) : null}
           </div>
         </CardContent>
-        <CardFooter className="mb-4 ">
-          <Button className="w-full cursor-pointer">Add to Cart</Button>
-        </CardFooter>
+       
       </div>
+      <CardFooter className="mb-4 ">
+          <Button className="w-full cursor-pointer" onClick={()=>handleAddToCart(product?._id)}  >Add to Cart</Button>
+        </CardFooter>
     </Card>
   );
 }
+
+
 
 export default ShoppingProductTile;

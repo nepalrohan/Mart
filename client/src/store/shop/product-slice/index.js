@@ -4,7 +4,8 @@ import axios from "axios";
 
 const initialState= {
     isLoading:false,
-    productList:[]
+    productList:[],
+    productDetails:null
 }
 
 
@@ -25,6 +26,22 @@ const query =new URLSearchParams({...filterParams,
     }
   );
 
+
+
+  export const fetchProductDetails = createAsyncThunk(
+    "/products/fetchProductDetails",
+    async (id) => {
+
+
+
+
+      const result = await axios.get(
+        `http://localhost:3000/api/shop/products/get/${id}`
+      );
+  
+      return result.data;
+    }
+  );
 
 const shoppingProductSlice = createSlice({
     name:'shoppingProducts',
@@ -49,6 +66,27 @@ builder.addCase(fetchAllFilteredProducts.pending, (state, action)=>{
 
     
 })
+.addCase(fetchProductDetails.pending, (state)=>{
+    state.isLoading = true;
+
+})
+.addCase(fetchProductDetails.fulfilled, (state, action)=>{
+    state.isLoading = false;
+    state.productDetails = action.payload.data;
+
+    
+})
+.addCase(fetchProductDetails.rejected, (state)=>{
+    state.isLoading = false;
+    state.productDetails = [];
+
+    
+})
+
+
+
+
+
     }
 })
 
