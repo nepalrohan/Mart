@@ -53,7 +53,7 @@ export const updateCartItem = createAsyncThunk(
   "cart/updateCartItem",
   async ({ userId, productId, quantity }) => {
     const response = await axios.put(
-      "http://localhost:3000/api/shop/cart/add",
+      "http://localhost:3000/api/shop/cart/update-cart",
       {
         userId,
         productId,
@@ -88,6 +88,8 @@ const shoppingCartSlice = createSlice({
       .addCase(fetchCartItems.fulfilled, (state, action) => {
         state.isLoading = false;
         state.cartItems = action.payload.data;
+        console.log(action.payload.data, "äction payload")
+
       })
       .addCase(fetchCartItems.rejected, (state) => {
         state.isLoading = false;
