@@ -4,7 +4,6 @@ import Product from "../../models/Product.js";
 const addToCart = async (req, res) => {
   try {
     const { userId, productId, quantity } = req.body;
-
     if (!userId || !productId || quantity <= 0) {
       return res.status(400).json({
         success: false,
@@ -39,13 +38,13 @@ const addToCart = async (req, res) => {
 
     await cart.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: "Product added successfully",
+      data: cart,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Error adding to cart",
     });
@@ -54,21 +53,22 @@ const addToCart = async (req, res) => {
 
 const fetchCartItems = async (req, res) => {
   try {
+    console.log(req.params)
     const { userId } = req.params;
     if (!userId) {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "User id is required",
       });
     }
 
     const cart = await Cart.findOne({ userId }).populate({
-      path: "item.productId",
+      path: "items.productId",
       select: "image title price salePrice",
     });
 
     if (!cart) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "Cart not found ",
       });
@@ -89,10 +89,10 @@ const fetchCartItems = async (req, res) => {
       title: item.productId.title,
       price: item.productId.price,
       salePrice: item.productId.salePrice,
-      quantity: item.productId.quantity,
+      quantity: item.quantity,
     }));
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: {
         ...cart._doc,
@@ -101,7 +101,7 @@ const fetchCartItems = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Error adding to cart",
     });
@@ -121,7 +121,7 @@ const updateCartItem = async (req, res) => {
 
     const cart = await Cart.findOne({ userId });
     if (!cart) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "Cart not found ",
       });
@@ -156,7 +156,7 @@ const updateCartItem = async (req, res) => {
       quantity: item.productId ? item.productId.quantity : null,
     }));
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: {
         ...cart._doc,
@@ -165,7 +165,7 @@ const updateCartItem = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Error adding to cart",
     });
@@ -188,7 +188,7 @@ const deleteCartItem = async (req, res) => {
     });
 
     if (!cart) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "Cart not found ",
       });
@@ -209,7 +209,7 @@ const deleteCartItem = async (req, res) => {
       quantity: item.productId ? item.productId.quantity : null,
     }));
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: {
         ...cart._doc,
@@ -218,7 +218,7 @@ const deleteCartItem = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Error adding to cart",
     });
