@@ -4,6 +4,19 @@ import { Button } from '../ui/button'
 import UserCartItemsContent from './cart-items-content'
 
 function UserCartWrapper({cartItems}) {
+  const totalCartAmount =
+    cartItems && cartItems.length > 0
+      ? cartItems.reduce(
+          (sum, currentItem) =>
+            sum +
+            (currentItem?.salePrice > 0
+              ? currentItem?.salePrice
+              : currentItem?.price) *
+              currentItem?.quantity,
+          0
+        )
+      : 0;
+
   return (
     <SheetContent className=' sm:max-w-md p-4'>
 
@@ -20,7 +33,7 @@ function UserCartWrapper({cartItems}) {
             <div className='flex justify-between'>
 
                 <span className='font-bold'>Total</span>
-                <span className='font-bold'>Rs.4354</span>
+                <span className='font-bold'>Rs.{totalCartAmount}</span>
 
             </div>
         </div>
