@@ -9,11 +9,18 @@ import { Textarea } from "../ui/textarea";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { toast } from "sonner";
+import { setProductDetails } from "@/store/shop/product-slice";
 
 function ProductDetailsDialogue({ open, setOpen, productDetails }) {
 
 const dispatch = useDispatch();
 const {user} = useSelector((state)=>state.auth)
+
+
+function handleDialogClose(){
+  setOpen(false);
+  dispatch(setProductDetails());
+}
 
 
   function handleAddToCart(getCurrentProductId) {
@@ -34,7 +41,7 @@ const {user} = useSelector((state)=>state.auth)
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleDialogClose}>
       <DialogContent className="max-h-[95vh] overflow-auto  grid  grid-cols-1 md:grid-cols-2 gap-8 sm:p-12 max-w-[90vw]  sm:max-w-[80vw] lg:max-w-[70vw]">
         <div className="relative overflow-hidden rounded-lg">
           <img

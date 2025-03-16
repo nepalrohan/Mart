@@ -175,6 +175,8 @@ function ShoppingListing() {
         open={openDetailsDialog}
         setOpen={setopenDetailsDialog}
         productDetails={productDetails}
+              
+
       />
     </div>
   );
