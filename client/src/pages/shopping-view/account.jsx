@@ -2,7 +2,11 @@ import React from 'react'
 
 function ShoppingAccount() {
   return (
-    <div>ShoppingAccount</div>
+    <div>
+
+
+      
+    </div>
   )
 }
 
