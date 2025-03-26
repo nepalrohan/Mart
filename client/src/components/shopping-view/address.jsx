@@ -10,6 +10,7 @@ import {
   fetchallAddresses,
 } from "@/store/shop/address-slice";
 import AddressCard from "./addressCard";
+import { toast } from "sonner";
 
 const initialAddressFormData = {
   address: "",
@@ -25,16 +26,23 @@ function Address() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { addresslist } = useSelector((state) => state.shopAddress);
+
+
+
   function handleManageAddress(e) {
     e.preventDefault();
 
-
+if(addresslist.length >= 3 && currentEditedId ===null){
+  toast.error('You can only add maximum 3 addresses');
+  return;
+}
    currentEditedId !==null ?
    dispatch(editAddress({userId: user?.id, addressId: currentEditedId, formData})).then((data)=>{
     if(data?.payload?.success){
       dispatch(fetchallAddresses(user?.id));
     setCurrentEditedId(null);
     setFormData(initialAddressFormData);
+    toast.success('Address updated successfully');
     }
    })
    : dispatch(createNewAddress({ ...formData, userId: user?.id })).then(
@@ -42,6 +50,7 @@ function Address() {
       if (data?.payload?.success) {
         dispatch(fetchallAddresses(user?.id));
         setFormData(initialAddressFormData);
+        toast.success("Address added successfully");
       }
     }
   );
@@ -61,6 +70,7 @@ function Address() {
     ).then((data) => {
       if (data?.payload?.success) {
         dispatch(fetchallAddresses(user?.id));
+        toast.success("Address deleted successfully");
       }
     });
   }
@@ -85,7 +95,7 @@ function handleEditAddress(getCurrentAddress) {
 
 
   return (
-    <Card>
+    <Card className=' mb-4'>
       <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {addresslist && addresslist.length > 0
           ? addresslist.map((item) => (
@@ -100,7 +110,7 @@ function handleEditAddress(getCurrentAddress) {
       <CardHeader>
         <CardTitle className="text-2xl font-bold">{ currentEditedId !==null ? ' Edit Address':'Add New Address'}</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3 ">
+      <CardContent className="space-y-3 md:w-1/2 mb-4">
         <CommonForm
           formControls={addressFormControls}
           formData={formData}
