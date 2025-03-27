@@ -96,7 +96,7 @@ function handleEditAddress(getCurrentAddress) {
 
   return (
     <Card className=' mb-4'>
-      <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2  gap-2">
+      <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {addresslist && addresslist.length > 0
           ? addresslist.map((item) => (
               <AddressCard
