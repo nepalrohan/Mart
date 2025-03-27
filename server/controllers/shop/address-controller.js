@@ -3,7 +3,7 @@ import Address from "../../models/address.js";
 export const addAddress = async (req, res) => {
   try {
     const { userId, address, city, pinCode, phone, notes } = req.body;
-
+console.log('userid', userId, "address",address,'city', city,'pinCode', pinCode,'phone',phone,'notes', notes );
     if (!userId || !address || !city || !pinCode || !phone || !notes) {
       return res.status(400).json({
         success: false,
@@ -46,7 +46,7 @@ export const fetchAllAddress = async (req, res) => {
     }
 
     const addressList = await Address.find({ userId });
-    if (!address) {
+    if (!addressList) {
       return res.status(400).json({
         success: false,
         message: "No address found",
@@ -112,7 +112,7 @@ export const deleteAddress = async (req, res) => {
   try {
 
     const { userId, addressId } = req.params;
-    const formData = req.body;
+   
 
     if (!userId || !addressId) {
       return res.status(400).json({
